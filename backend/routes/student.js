@@ -10,7 +10,7 @@ app.get("/allcourses/DBMS",(req,res)=>{
         courseName:"DBMS",
         courseSite:"www.google.com",
         Credits:"4.5",
-        // i have to learn how to pass in links
+        // i have to pass in links
     })
 })
 app.get("/allcourses/CN",(req,res)=>{
