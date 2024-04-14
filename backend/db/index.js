@@ -35,5 +35,6 @@ const Parent = mongoose.model('Parent', ParentSchema);
 module.exports = {
     Admin,
     Student,
-    Parent
+    Parent,
+    Marks
 }
