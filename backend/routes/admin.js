@@ -35,10 +35,12 @@ app.post("/addStudent",async(req,res)=>{
     let username=req.body.username
     let password=req.body.password
     let rollnumber=req.body.rollnumber
+    let subgroup=req.body.subgroup
     await Student.create({
         username,
         password,
-        rollnumber
+        rollnumber,
+        subgroup
     })
     res.json({
         msg:"Student created successfully"

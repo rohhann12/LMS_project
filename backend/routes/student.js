@@ -32,7 +32,7 @@ app.get("/allcourses/SE",(req,res)=>{
     })
 })
 
-app.get("/getMarks/name",(req,res)=>{
+app.get("/getMarks/:rollnumber",(req,res)=>{
     Marks.findOne({
         // i have to check for the name of the student to render its marks
     })

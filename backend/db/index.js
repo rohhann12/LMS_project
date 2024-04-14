@@ -17,7 +17,9 @@ const ParentSchema = new mongoose.Schema({
 const StudentSchema = new mongoose.Schema({
     
     username: String,
-    password: String
+    password: String,
+    rollnumber:Number,
+    subgroup:String
 });
 const MarksSchema = new mongoose.Schema({
     usernamename:String,
