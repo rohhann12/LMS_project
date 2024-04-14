@@ -1,6 +1,6 @@
 const multer = require('multer');
 const path = require("path");
-const { Admin } = require("../db/index");
+const { Admin,Student } = require("../db/index.js");
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -30,6 +30,21 @@ app.post("/uploadTimeTable", upload.single('avatar'), (req, res) => {
         res.json({ msg: "File uploaded successfully" });
     });
 });
+
+app.post("/addStudent",async(req,res)=>{
+    let username=req.body.username
+    let password=req.body.password
+    let rollnumber=req.body.rollnumber
+    await Student.create({
+        username,
+        password,
+        rollnumber
+    })
+    res.json({
+        msg:"Student created successfully"
+    })
+
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

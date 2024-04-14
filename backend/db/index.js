@@ -20,7 +20,7 @@ const StudentSchema = new mongoose.Schema({
     password: String
 });
 const MarksSchema = new mongoose.Schema({
-    name:String,
+    usernamename:String,
     marksObtained:Number,
     totalMarks:Number
 });
