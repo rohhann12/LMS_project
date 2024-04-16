@@ -3,13 +3,21 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-app.get("/getMarks/name",(req,res)=>{
-    const marksToShow=Marks.findOne({})
-    res.json({
-        marksObtained:marksToShow
-    })
+app.get("/getMarks",async(req,res)=>{
+    const enterRollNum=req.headers.enterRollNum;
+    const marksToShow= await Marks.findOne({enterRollNum})
+    if(marksToShow==null){
+        res.json({
+            msg:"Marks not added"
+        })
+    }else{
+        res.json({
+            marksObtained:marksToShow
+        })
+    }
 })
 
-module.exports={
-    app
-}
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+});

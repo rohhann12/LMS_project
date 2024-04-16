@@ -1,4 +1,7 @@
 const {Admin,Parent,Student}=require("../../db/index")
+
+
+
 function adminMiddleWare(req,res,next){
     const username=req.headers.username;
     const password=req.headers.password;
@@ -27,7 +30,10 @@ function studentMiddleware(req, res, next) {
             res.json({
                 msg: "Logged In Successfully"
             });
-        } else {
+            next();
+        } 
+        
+        else {
             res.status(401).json({
                 msg: "Unauthorized"
             });
@@ -48,6 +54,7 @@ function parentMiddleware(req, res, next) {
             res.json({
                 msg: "Logged In Successfully"
             });
+            next();
         } else {
             res.status(401).json({
                 msg: "Unauthorized"
@@ -57,4 +64,9 @@ function parentMiddleware(req, res, next) {
 
 }
 
+module.exports={
+    parentMiddleware,
+    studentMiddleware,
+    adminMiddleWare
+}
 
