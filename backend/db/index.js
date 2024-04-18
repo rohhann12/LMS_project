@@ -4,16 +4,19 @@ mongoose.connect("mongodb+srv://rohann:rohan@cluster0.xvl6xp0.mongodb.net/")
 const AdminSchema = new mongoose.Schema({
     username: String,
     password: String,
-    
 });
 
 const ParentSchema = new mongoose.Schema({
     username: String,
     password: String
 });
-const postSchema = new mongoose.Schema({
-    myFile : String
+
+const ImageModel = new mongoose.Schema({
+    myFile : String,
+    subgroup:String
+    
 });
+
 const StudentSchema = new mongoose.Schema({
     username: String,
     password: String,
@@ -21,6 +24,7 @@ const StudentSchema = new mongoose.Schema({
     subgroup:String,
     avatar:String,
 });
+
 const MarksSchema = new mongoose.Schema({
     totalMarks:Number,
     DBMS:Number,
@@ -33,11 +37,11 @@ const Marks=mongoose.model("Marks",MarksSchema)
 const Admin = mongoose.model('Admin', AdminSchema);
 const Student = mongoose.model('Student', StudentSchema);
 const Parent = mongoose.model('Parent', ParentSchema);
-const Post=mongoose.model('Posts',postSchema)
+const Image=mongoose.model('Posts',ImageModel)
 module.exports = {
     Admin,
     Student,
     Parent,
     Marks,
-    Post
+    Image
 }

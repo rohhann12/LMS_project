@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const {Marks,Student}=require("../db/index")
+const {Marks,Student,Image}=require("../db/index")
 const cors=require('cors')
 app.use(express.json());
+
 app.get("/allcourses/DBMS",(req,res)=>{
     res.json({
         id:1,
@@ -43,17 +44,6 @@ app.get("/getMarks",async(req,res)=>{
         res.json({
             marksObtained:marksToShow
         })
-    }
-})
-app.get('/tt', (req, res) => {
-    try{
-        Post.find({}).then(data => {
-            res.json(data)
-        }).catch(error => {
-            res.status(408).json({ error })
-        })
-    }catch(error){
-        res.json({error})
     }
 })
 
