@@ -1,0 +1,1 @@
+// yeh bhi bna ni h jisne routes fix hojaye depending user ne konsa input kra h ya phir frontend hie sbka alag bnata hoo ki agr /students wala h toh yeh 

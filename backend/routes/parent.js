@@ -3,8 +3,11 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+
+app.use(express.json());
+
 app.get("/getMarks",async(req,res)=>{
-    const enterRollNum=req.headers.enterRollNum;
+    const enterRollNum=req.body.enterRollNum;
     const marksToShow= await Marks.findOne({enterRollNum})
     if(marksToShow==null){
         res.json({

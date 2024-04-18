@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3000
 const {Marks,Student}=require("../db/index")
-
-  
+const cors=require('cors')
+app.use(express.json());
 app.get("/allcourses/DBMS",(req,res)=>{
     res.json({
         id:1,
@@ -33,8 +33,8 @@ app.get("/allcourses/SE",(req,res)=>{
 })
 
 app.get("/getMarks",async(req,res)=>{
-    const RollNum=req.headers.RollNum;
-    const marksToShow= await Marks.findOne({RollNum})
+    const rollnumber=req.body.rollnumber;
+    const marksToShow= await Marks.findOne({rollnumber})
     if(marksToShow==null){
         res.json({
             msg:"Marks not added"
@@ -45,21 +45,17 @@ app.get("/getMarks",async(req,res)=>{
         })
     }
 })
-app.get("/timetable", async (req, res) => {
-    const subgroup = req.query.subgroup; // Access query parameters using req.query
-
-    try {
-        const timetable = await Student.findOne({ subgroup: subgroup }).exec();
-        if (!timetable) {
-            return res.status(404).json({ error: "Timetable not found for this subgroup" });
-        }
-        // Send the file as a response
-        res.sendFile(avatar);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Server error" });
+app.get('/tt', (req, res) => {
+    try{
+        Post.find({}).then(data => {
+            res.json(data)
+        }).catch(error => {
+            res.status(408).json({ error })
+        })
+    }catch(error){
+        res.json({error})
     }
-});
+})
 
 
 

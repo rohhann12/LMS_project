@@ -1,20 +1,24 @@
 const multer = require('multer');
 const path = require("path");
-const { Admin,Student,Marks } = require("../db/index.js");
+const { Admin,Student,Marks,Post } = require("../db/index.js");
 const express = require('express');
 const e = require('express');
 const app = express();
 const port = 3000;
+const fs=require('fs')
 
-// to upload TimeTable
+app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, path.join(__dirname, '../uploads'));
-    },
-    filename: function(req, file, cb) {
-        let extName = path.extname(file.originalname);
-        cb(null, Date.now() + extName);
-    },
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../uploads'));
+  },
+  filename: function (req, file, cb) {
+    // Set the filename of the uploaded file
+    cb(null, file.originalname);
+  }
 });
 
 const upload = multer({
@@ -28,28 +32,32 @@ const upload = multer({
         }
     },
 });
-
-app.use(express.json());
-
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-app.post("/uploadTimeTable", upload.single('avatar'), (req, res) => {
-    const imagePath = req.file.path; 
-    const subgroup = req.headers.subgroup;
-
-    Student.create({
-        avatar: imagePath,
+app.post("/uploadTimeTable", upload.single('avatar'), async (req, res) => {
+    try {
+      const { originalname, buffer } = req.file;
+      const imageData = {
+        name: originalname,
+        data: buffer.toString('base64') // Convert buffer to base64 string
+      };
+  
+      const subgroup = req.headers.subgroup;
+  
+      await Student.create({
+        avatar: imageData.data, // Store base64 data in the avatar field
         subgroup: subgroup,
-        fileName: req.file.filename // Assuming req.file.filename gives the uploaded file name
-    })
-    .then(() => {
-        res.json({ msg: "File uploaded successfully" });
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({ error: "Error uploading file" });
-    });
-});
+        fileName: originalname
+      });
+  
+      res.json({ msg: "File uploaded successfully" });
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+
+
+
 
 
     app.post("/addStudent",async(req,res)=>{
@@ -65,47 +73,38 @@ app.post("/uploadTimeTable", upload.single('avatar'), (req, res) => {
         })
 
     })
-    // ismei kuch issue hai
+  
     app.post("/addMarks", async (req, res) => {
-        try {
-            const rollNumber = parseInt(req.body['rollNumber']); // Convert to number
-    
-            console.log('Received Roll Number:', rollNumber);
-    
-            if (!rollNumber) {
-                return res.status(400).json({ error: 'Roll number not provided in request body' });
-            }
-    
-            const student = await Student.findOne({ rollNumber });
-    
-            if (!student) {
-                return res.status(404).json({ error: 'Student not found' });
-            }
-    
-            const { DBMS, CN, SE, totalMarks } = req.body;
-    
-            const marks = await Marks.create({
-                rollNumber, // Include the rollNumber from request body
-                totalMarks,
+        const rollnumber=req.body.rollnumber
+        const check= await Student.findOne({
+            rollnumber : rollnumber
+        })
+
+        if(!check){
+            res.json({
+                msg:"user doesn't exist"
+            })
+        }else{
+            const {total,DBMS,SE,CN,rollnumber}=req.body;
+            await Marks.create({
+                rollnumber,
+                totalMarks:total,
                 DBMS,
                 SE,
                 CN
-            });
-    
+            })
             res.json({
-                msg: `Marks added to/updated for the student ${rollNumber}`,
-                marks // Optionally, you can send back the created/updated marks data
-            });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Internal server error' });
+                msg: `Marks added successfully for roll number ${rollnumber}`
+            });     
         }
-    });
-    
-    
+       
+    })
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
 
-module.exports = upload;
+
+module.exports={
+    upload
+}
