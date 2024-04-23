@@ -1,6 +1,6 @@
     const multer = require('multer');
     const path = require("path");
-    const { Admin,Student,Marks,Image } = require("../db/index.js");
+    const { Student,Marks,Image } = require("../db/index.js");
     const express = require('express');
     const router = express.Router()
     const port = 3000;
@@ -32,11 +32,11 @@
         
     router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-    router.post("/uploadTimeTable", upload.single('avatar'), (req, res) => {
+    router.post("/uploadTimeTable", upload.single('avatar'), async (req, res) => {
         const imagePath = req.file.path; 
         const subgroup = req.body.subgroup;
 
-        Student.create({
+        await Student.create({
             avatar: imagePath,
             subgroup: subgroup,
             fileName: req.file.filename 
@@ -47,7 +47,7 @@
                 const subgroup = req.body.subgroup;
                 const fileData = fs.readFileSync(imagePath);
                 const base64String = fileData.toString('base64');
-                Image.create({
+               await Image.create({
                     myFile:base64String,
                     subgroup:subgroup
                 })
@@ -64,7 +64,7 @@
         });
     });
 
-        router.post("/addStudent",async(req,res)=>{
+        router.post("/addStudent",async (req,res)=>{
             const { username, password, rollnumber,subgroup } = req.body;
             await Student.create({
                 username,

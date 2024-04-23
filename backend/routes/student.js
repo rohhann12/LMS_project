@@ -2,13 +2,12 @@ const express = require('express')
 const  router = express()
 const port = 3000
 const {Marks}=require("../db/index")
-const cors=require('cors')
+
 
  router.use(express.json());
-    router.use(cors)
 
-    router.get("/allcourses/DBMS",(req,res)=>{
-    res.json({
+    router.get("/allcourses/DBMS",async (req,res)=>{
+        res.json({
         id:1,
         courseName:"DBMS",
         courseSite:"www.google.com",

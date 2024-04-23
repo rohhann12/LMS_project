@@ -7,8 +7,8 @@ const port = 3000
  router.use(express.json());
 
  router.get("/getMarks",async(req,res)=>{
-    const enterRollNum=req.body.enterRollNum;
-    const marksToShow= await Marks.findOne({enterRollNum})
+    const rollnumber=req.body.rollnumber;
+    const marksToShow= await Marks.findOne({rollnumber})
     if(marksToShow==null){
         res.json({
             msg:"Marks not added"
