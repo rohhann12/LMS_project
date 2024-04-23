@@ -1,1 +1,20 @@
-// yeh bhi bna ni h jisne routes fix hojaye depending user ne konsa input kra h ya phir frontend hie sbka alag bnata hoo ki agr /students wala h toh yeh 
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const app = express();
+const PORT = 3000; 
+
+const adminRoutes = require("./routes/admin");
+const studentRoutes = require("./routes/student");
+const parentRoutes = require("./routes/parent");
+
+app.use(cors());
+app.use(bodyParser.json());
+
+app.use("/admin", adminRoutes);
+app.use("/student", studentRoutes);
+app.use("/parent", parentRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

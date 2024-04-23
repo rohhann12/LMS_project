@@ -1,12 +1,12 @@
 const {Marks}=require("../db/index")
 const express = require('express')
-const app = express()
+const  router = express()
 const port = 3000
 
 
-app.use(express.json());
+ router.use(express.json());
 
-app.get("/getMarks",async(req,res)=>{
+ router.get("/getMarks",async(req,res)=>{
     const enterRollNum=req.body.enterRollNum;
     const marksToShow= await Marks.findOne({enterRollNum})
     if(marksToShow==null){
@@ -21,6 +21,5 @@ app.get("/getMarks",async(req,res)=>{
 })
 
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
+ 
+module.exports= router

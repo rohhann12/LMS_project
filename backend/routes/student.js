@@ -1,30 +1,33 @@
 const express = require('express')
-const app = express()
+const  router = express()
 const port = 3000
-const {Marks,Student,Image}=require("../db/index")
+const {Marks}=require("../db/index")
 const cors=require('cors')
-app.use(express.json());
 
-app.get("/allcourses/DBMS",(req,res)=>{
+ router.use(express.json());
+    router.use(cors)
+
+    router.get("/allcourses/DBMS",(req,res)=>{
     res.json({
         id:1,
         courseName:"DBMS",
         courseSite:"www.google.com",
         Credits:"4.5",
-        // i have to pass in links
+      
     })
 })
-app.get("/allcourses/CN",(req,res)=>{
+ router.get("/allcourses/CN",(req,res)=>{
     res.json({
         id:2,
         courseName:"CN",
         courseSite:"www.google.com",
         Credits:"4.0",
+        // pdf ka link converter
 
     })
 })
 
-app.get("/allcourses/SE",(req,res)=>{
+ router.get("/allcourses/SE",(req,res)=>{
     res.json({
         id:3,
         courseName:"SOFTWARE ENGINEERING",
@@ -33,9 +36,10 @@ app.get("/allcourses/SE",(req,res)=>{
     })
 })
 
-app.get("/getMarks",async(req,res)=>{
+ router.get("/getMark",async(req,res)=>{
     const rollnumber=req.body.rollnumber;
     const marksToShow= await Marks.findOne({rollnumber})
+
     if(marksToShow==null){
         res.json({
             msg:"Marks not added"
@@ -47,8 +51,5 @@ app.get("/getMarks",async(req,res)=>{
     }
 })
 
+module.exports= router
 
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
