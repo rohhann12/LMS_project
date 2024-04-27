@@ -7,62 +7,24 @@
     const fs=require('fs')
 
         router.use(express.json());
-        
-        const storage = multer.diskStorage({
-            destination: function(req, file, cb) {
-                cb(null, path.join(__dirname, '../uploads'));
-            },
-            filename: function(req, file, cb) {
-                let extName = path.extname(file.originalname);
-                cb(null, Date.now() + extName);
-            },
-        });
-        
-        const upload = multer({
-            storage: storage,
-            fileFilter: function(req, file, callback) {
-                if (file.mimetype === "image/png") {
-                    callback(null, true);
-                } else {
-                    console.log("Please upload an image in PNG format.");
-                    callback(null, false);
-                }
-            },
-        });
-        
+ 
     router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-    router.post("/uploadTimeTable", upload.single('avatar'), async (req, res) => {
-        const imagePath = req.file.path; 
-        const subgroup = req.body.subgroup;
-
-        await Student.create({
-            avatar: imagePath,
-            subgroup: subgroup,
-            fileName: req.file.filename 
-        })
-        .then(async () => {
-
-            try {
-                const subgroup = req.body.subgroup;
-                const fileData = fs.readFileSync(imagePath);
-                const base64String = fileData.toString('base64');
-               await Image.create({
-                    myFile:base64String,
-                    subgroup:subgroup
-                })
-                res.json({ msg: "File uploaded successfully",subgroup:subgroup ,base64String: base64String});
-            }
-            catch (err) {
-                console.error(err);
-                res.status(500).json({ error: "Error reading file" });
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({ error: "Error uploading file" });
-        });
-    });
+    router.post("/uploadTimeTable",  async (req, res) => {
+        try {
+          const { base64String, subgroup } = req.body;
+      
+          if (!base64String || !subgroup) {
+            return res.status(400).json({ error: 'Missing data in request body' });
+          }
+      
+          await Student.create({ avatar: base64String, subgroup: subgroup });
+          res.json({ msg: 'File uploaded successfully', subgroup: subgroup });
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Internal Server Error' });
+        }
+      });
+      
 
         router.post("/addStudent",async (req,res)=>{
             const { username, password, rollnumber,subgroup } = req.body;
@@ -78,31 +40,41 @@
 
         })
     
-        router.post("/addMarks", async (req, res) => {
-            const rollnumber=req.body.rollnumber
-            const check= await Student.findOne({
-                rollnumber : rollnumber
-            })
 
-            if(!check){
-                res.json({
-                    msg:"user doesn't exist"
-                })
-            }else{
-                const {total,DBMS,SE,CN,rollnumber}=req.body;
+
+        router.post("/addMarks", async (req, res) => {
+            try {
+                const rollnumber = req.body.rollnumber;
+                const { DBMS, SE, CN } = req.body;
+        
+                // Validate input (example using basic checks)
+                if (!rollnumber || !DBMS || !SE || !CN) {
+                    return res.status(400).json({ msg: "Missing required fields" });
+                }
+                if (typeof DBMS !== 'number' || typeof SE !== 'number' || typeof CN !== 'number') {
+                    return res.status(400).json({ msg: "Marks should be numbers" });
+                }
+        
+                const check = await Student.findOne({ rollnumber });
+                if (!check) {
+                    return res.status(404).json({ msg: "user doesn't exist" }); 
+                }
+        
                 await Marks.create({
                     rollnumber,
-                    totalMarks:total,
                     DBMS,
                     SE,
                     CN
-                })
+                });
+        
                 res.json({
                     msg: `Marks added successfully for roll number ${rollnumber}`
-                });     
+                }); 
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ msg: "Internal server error" });
             }
-        
-        })
+        });
 
 
     module.exports= router

@@ -1,16 +1,12 @@
-import { useState, useEffect } from 'react';
-import Axios from "axios"
-async function App() {
-  const [data,setData]=useState([]);
-  const resp=await Axios.get("http://localhost:3000/student/allcourses/DBMS")
-  .then((response)=>{
-    const a=response.data
-  })
-  console.log(a);
+import React from 'react'
+// import GetMarks from './components/student/getMarks'
+import Add from './components/student/Navigation'
+function App() {
   return (
-    <div>
-        <h1>{data}</h1>
-    </div>
-  );
+    <>
+    <Add/>
+    </>
+  )
 }
-export default App;
+
+export default App

@@ -38,6 +38,7 @@ const MarksSchema = new mongoose.Schema({
     DBMS:Number,
     SE:Number,
     CN:Number,
+    ANALOG:Number,
     rollnumber:Number
 });
 
