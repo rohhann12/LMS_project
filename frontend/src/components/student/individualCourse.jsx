@@ -1,1 +1,0 @@
-// props pass ismei honge card mei -- data BE se render kradenge

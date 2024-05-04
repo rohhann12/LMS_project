@@ -1,0 +1,4 @@
+1. protected routes
+2. middleware for login authentication(use jwt)
+
+3. /student/getTimetable wala string ko image mei convert krna 

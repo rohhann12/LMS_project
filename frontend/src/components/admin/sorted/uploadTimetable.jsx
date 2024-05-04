@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {Link } from 'react-router-dom'
 
 const ImageUploader = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -7,6 +8,7 @@ const ImageUploader = () => {
   const [subgroup, setSubgroup] = useState('');
   const [errorText, setErrorText] = useState('');
   const [data,setdata]=useState(false)
+
   const handleFileInputChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -15,6 +17,8 @@ const ImageUploader = () => {
       setBase64String(reader.result);
     };
 
+    console.log(setBase64String);
+    
     if (file) {
       reader.readAsDataURL(file);
       setSelectedFile(file);
@@ -33,13 +37,11 @@ const ImageUploader = () => {
         subgroup: subgroup
       });
   
-      console.log(response.data); // Assuming your backend sends a response with a "msg" property
-  
-      // Set data to true only if the upload was successful
+      console.log(response.data); 
+      console.log(base64String)
+      
       if (response.data && response.data.msg === 'File uploaded successfully') {
         setdata(true);
-      } else {
-        setErrorText('An error occurred while uploading. Please try again later.');
       }
     } catch (error) {
       console.log('Error:', error.message);
@@ -58,6 +60,8 @@ const ImageUploader = () => {
       />
       <button onClick={handleUpload}>Upload</button>
       {data && <p>{'File Uploaded'}</p>}
+      <br/>
+      <Link to='/'>Go Back</Link>
     </div>
   );
 };

@@ -1,72 +1,25 @@
-const {Admin,Parent,Student}=require("../../db/index")
+function auth(req, res, next) {
+    const { username, password, category } = req.body;
+    const hardcodedCredentials = {
+        admin: { username: 'admin', password: 'admin' },
+        parent: { username: 'parent', password: 'parent' },
+        student: { username: 'student', password: 'student' }
+    };
 
+    const credentialsMatch = hardcodedCredentials[category] &&
+        username === hardcodedCredentials[category].username &&
+        password === hardcodedCredentials[category].password;
 
-
-function adminMiddleWare(req,res,next){
-    const username=req.headers.username;
-    const password=req.headers.password;
-    if(username=='admin' && password=='admin'){
+    if (credentialsMatch) {
         res.json({
-            msg:"Logged in Successfully"
-        })
+            msg: "Logged in Successfully"
+        });
         next();
-    }else{
+    } else {
         res.json({
-            msg:"Incorrect credentials"
-        })
+            msg: "Incorrect credentials"
+        });
     }
 }
 
-function studentMiddleware(req, res, next) {
-    const username = req.headers.username;
-    const password = req.headers.password;
-    Student.findOne({
-        username,
-        password
-    })
-    .then(function(Val) {
-        if (Val) {
-            next();
-            res.json({
-                msg: "Logged In Successfully"
-            });
-            next();
-        } 
-        
-        else {
-            res.status(401).json({
-                msg: "Unauthorized"
-            });
-        }
-    })
-
-}
-function parentMiddleware(req, res, next) {
-    const username = req.headers.username;
-    const password = req.headers.password;
-    Parent.findOne({
-        username,
-        password
-    })
-    .then(function(Val) {
-        if (Val) {
-            next();
-            res.json({
-                msg: "Logged In Successfully"
-            });
-            next();
-        } else {
-            res.status(401).json({
-                msg: "Unauthorized"
-            });
-        }
-    })
-
-}
-
-module.exports={
-    parentMiddleware,
-    studentMiddleware,
-    adminMiddleWare
-}
-
+module.exports = auth;

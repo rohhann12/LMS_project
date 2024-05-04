@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import {Link } from 'react-router-dom'
 function AddMarks() {
   const [DBMS, setDBMS] = useState('');
   const [CN, setCN] = useState('');
@@ -21,7 +21,7 @@ function AddMarks() {
       setError('Marks should be numbers.');
       return;
     }
-
+console.log(rollnumber)
     try {
       const response = await axios.post('http://localhost:3000/admin/addMarks', {
         rollnumber: rollnumber,
@@ -84,6 +84,8 @@ function AddMarks() {
         <button type="submit">Add Student's Marks</button>
       </form>
       {error && <div>{error}</div>}
+      <Link to='/'>Go Back </Link>
+      <br/>
     </div>
   );
 }

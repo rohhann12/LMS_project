@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {Link } from 'react-router-dom'
 
 function AddStudent() {
   const [username, setusername] = useState('');
@@ -73,6 +74,8 @@ function AddStudent() {
         <button type="submit">Add Student's Marks</button>
       </form>
       {error && <div>{error}</div>}
+      <br/>
+      <Link to='/'>Go Back</Link>
     </div>
   );
 }

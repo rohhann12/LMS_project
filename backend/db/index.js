@@ -30,11 +30,9 @@ const StudentSchema = new mongoose.Schema({
     password: String,
     rollnumber:Number,
     subgroup:String,
-    avatar:String,
 });
 
 const MarksSchema = new mongoose.Schema({
-    totalMarks:Number,
     DBMS:Number,
     SE:Number,
     CN:Number,

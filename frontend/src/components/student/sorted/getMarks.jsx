@@ -1,18 +1,18 @@
-// rollNumber input lekr BE req se marks fetch krlega
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import {Link} from 'react-router-dom'
 const RollNumberChecker = () => {
   const [rollNumber, setRollNumber] = useState('');
   const [marksData, setMarksData] = useState(null);
-  
+  const [Marks,setMarks]=useState('');
+
   const getMarks= async(e)=>{
     e.preventDefault();
 
     try {
         console.log(rollNumber);
       const response = await axios.post('http://localhost:3000/parent/getMarks', {
-        rollnumber: rollNumber,
+        rollnumber: rollNumber
       });
       console.log(response.data)
       setMarksData(response.data);
@@ -34,14 +34,12 @@ const RollNumberChecker = () => {
       </form>
       {marksData && (
         <div>
-        <p>DBMS-</p>
-          <p> {`${marksData['marksObtained']['DBMS']}`}</p>
-        <p>CN-</p>
-        <p> {`${marksData['marksObtained']['CN']}`}</p>
-        <p>SE-</p>
-        <p> {`${marksData['marksObtained']['SE']}`}</p>
+        <p>DBMS-{`${marksData['marksObtained']['DBMS']}`}</p>
+        <p>CN- {`${marksData['marksObtained']['CN']}`}</p>
+        <p>SE-{`${marksData['marksObtained']['SE']}`}</p>
         </div>
       )}
+      <Link to='/'>Go Back</Link>
     </div>
   );
 };

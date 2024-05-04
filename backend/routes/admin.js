@@ -3,27 +3,28 @@
     const { Student,Marks,Image } = require("../db/index.js");
     const express = require('express');
     const router = express.Router()
-    const port = 3000;
     const fs=require('fs')
 
         router.use(express.json());
- 
-    router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-    router.post("/uploadTimeTable",  async (req, res) => {
-        try {
-          const { base64String, subgroup } = req.body;
-      
-          if (!base64String || !subgroup) {
-            return res.status(400).json({ error: 'Missing data in request body' });
-          }
-      
-          await Student.create({ avatar: base64String, subgroup: subgroup });
-          res.json({ msg: 'File uploaded successfully', subgroup: subgroup });
-        } catch (err) {
-          console.error(err);
-          res.status(500).json({ error: 'Internal Server Error' });
-        }
-      });
+        router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+        router.post("/uploadTimeTable", async (req, res) => {
+            try {
+                console.log(req.body);
+                const { base64String, subgroup } = req.body;
+        
+                if (!base64String || !subgroup) {
+                    return res.status(400).json({ error: 'Missing data in request body' });
+                }
+        
+                // Create a new student record with the uploaded file and subgroup
+                await Student.create({ avatar: base64String, subgroup: subgroup });
+                res.json({ msg: 'File uploaded successfully', subgroup: subgroup });
+            } catch (err) {
+                console.error(err);
+                res.status(500).json({ error: 'Internal Server Error' });
+            }
+        });
+        
       
 
         router.post("/addStudent",async (req,res)=>{
