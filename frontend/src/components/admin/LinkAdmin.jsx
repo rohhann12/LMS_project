@@ -7,12 +7,15 @@ function All() {
     <>
 
       <p>ADMIN DASHBOARD</p>
-      <Link to='/addStudent'>Add Student Here</Link>
+      <Link to='/AddStudent'>Add Student Here</Link>
       <br/>
       <Link to='/UploadTimeTable'>Upload Time Table</Link>
       <br/>
-      <Link to='/addMarks'>Add Marks Here</Link>
+      <Link to='/AddMarks'>Add Marks Here</Link>
       <br/>
+      <Link to='/DeleteUser'>Delete User</Link>
+      <br/>
+      <Link to='/UploadAssignment'>Upload Assignment</Link>
 
     </>
   );

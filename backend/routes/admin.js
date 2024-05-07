@@ -1,31 +1,65 @@
-    const multer = require('multer');
     const path = require("path");
-    const { Student,Marks,Image } = require("../db/index.js");
+    const { Student,Marks,PDF,TT } = require("../db/index.js");
     const express = require('express');
     const router = express.Router()
-    const fs=require('fs')
+    const multer = require('multer');
 
-        router.use(express.json());
-        router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-        router.post("/uploadTimeTable", async (req, res) => {
-            try {
-                console.log(req.body);
-                const { base64String, subgroup } = req.body;
+    router.use(express.json());
+    const fs = require('fs');
+
+    const storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, '../files'));
+      },
+      filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now();
+        cb(null, uniqueSuffix + file.originalname);
+      },
+    });
+    
+    const upload = multer({ storage: storage });
+    
+    router.use('/files', express.static(path.join(__dirname, '../files')));
+    
+    router.post("/upload-files", upload.single("file"), async (req, res) => {
+      console.log(req.file);
+    
+      const CourseName = req.body.CourseName;
+      const filePath = req.file.path; // Path to the uploaded file on disk
+    
+      try {
+        const fileData = fs.readFileSync(filePath, { encoding: 'base64' });
         
-                if (!base64String || !subgroup) {
-                    return res.status(400).json({ error: 'Missing data in request body' });
-                }
-        
-                // Create a new student record with the uploaded file and subgroup
-                await Student.create({ avatar: base64String, subgroup: subgroup });
-                res.json({ msg: 'File uploaded successfully', subgroup: subgroup });
-            } catch (err) {
-                console.error(err);
-                res.status(500).json({ error: 'Internal Server Error' });
-            }
-        });
+        await PDF.create({  
+            CourseName:CourseName,
+            fileData: fileData });
         
       
+        res.send({ status: fileData});
+        console.log(fileData)
+      } catch (error) {
+        res.json({ status: error });
+      }
+    });
+
+    router.post("/uploadTimeTable", upload.single("image"), async (req, res) => {
+        console.log(req.file);
+      
+        const subgroup = req.body.subgroup;
+        const filePath = req.file.path; 
+      
+        try {
+          const fileData2 = fs.readFileSync(filePath, { encoding: 'base64' });
+          await TT.create({ subgroup: subgroup, fileData2: fileData2 });
+          res.send({ status: 'ok', fileData2: fileData2 });
+          console.log('File uploaded and saved to MongoDB:', fileData2);
+        } catch (error) {
+          console.error('Error uploading file:', error);
+          res.status(500).json({ status: 'error', message: 'Failed to upload file' });
+        }
+      });
+
+
 
         router.post("/addStudent",async (req,res)=>{
             const { username, password, rollnumber,subgroup } = req.body;
@@ -40,8 +74,6 @@
             })
 
         })
-    
-
 
         router.post("/addMarks", async (req, res) => {
             try {
@@ -76,6 +108,16 @@
                 res.status(500).json({ msg: "Internal server error" });
             }
         });
-
+        router.post('/deleteUser',async (req,res)=>{
+            try {
+                const rollnumber=req.body.rollnumber
+                const deleteEntry = await Student.deleteOne({rollnumber})
+                res.json({
+                    msg:`User deleted with rollnumber ${rollnumber}`
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        })
 
     module.exports= router

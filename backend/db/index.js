@@ -19,11 +19,16 @@ const ParentSchema = new mongoose.Schema({
     password: String
 });
 
-const ImageModel = new mongoose.Schema({
-    myFile : String,
+const PDFSchema=new mongoose.Schema({
+    fileData:String,
+    CourseName:String
+})
+
+const TTSchema=new mongoose.Schema({
+    fileData2:String,
     subgroup:String
-    
-});
+})
+
 
 const StudentSchema = new mongoose.Schema({
     username: String,
@@ -44,12 +49,14 @@ const Marks=mongoose.model("Marks",MarksSchema)
 const Admin = mongoose.model('Admin', AdminSchema);
 const Student = mongoose.model('Student', StudentSchema);
 const Parent = mongoose.model('Parent', ParentSchema);
-const Image=mongoose.model('Posts',ImageModel)
+const PDF=mongoose.model('PDF',PDFSchema)
+const TT=mongoose.model('TT',TTSchema)
 
 module.exports = {
     Admin,
     Student,
     Parent,
     Marks,
-    Image
+    PDF,
+    TT
 }

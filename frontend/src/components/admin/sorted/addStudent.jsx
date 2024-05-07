@@ -71,7 +71,7 @@ function AddStudent() {
         </label>
 
         <br />
-        <button type="submit">Add Student's Marks</button>
+        <button type="submit">Add Student</button>
       </form>
       {error && <div>{error}</div>}
       <br/>

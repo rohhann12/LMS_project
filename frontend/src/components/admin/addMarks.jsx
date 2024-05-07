@@ -8,34 +8,35 @@ function AddMarks() {
   const [rollnumber, setRollNumber] = useState('');
   const [error, setError] = useState('');
 
-  const enterData = async (e) => {
-    e.preventDefault();
+const enterData = async (e) => {
+  e.preventDefault();
 
-    // Convert input values to numbers if they are valid numbers
-    const dbmsNumber = parseInt(DBMS);
-    const cnNumber = parseInt(CN);
-    const seNumber = parseInt(SE);
-    const rollnumber = parseInt(rollnumber);
+  // Convert input values to numbers if they are valid numbers
+  const dbmsNumber = parseInt(DBMS);
+  const cnNumber = parseInt(CN);
+  const seNumber = parseInt(SE);
 
-    if (isNaN(dbmsNumber) || isNaN(cnNumber) || isNaN(seNumber)) {
-      setError('Marks should be numbers.');
-      return;
-    }
-console.log(rollnumber)
-    try {
-      const response = await axios.post('http://localhost:3000/admin/addMarks', {
-        rollnumber: rollnumber,
-        DBMS: dbmsNumber,
-        SE: seNumber,
-        CN: cnNumber
-      });
+  if (isNaN(dbmsNumber) || isNaN(cnNumber) || isNaN(seNumber)) {
+    setError('Marks should be numbers.');
+    return;
+  }
 
-      console.log('Marks added successfully:', response.data);
-      // You can handle success, e.g., show a success message to the user
-    } catch (error) {
-      console.error('Error adding marks:', error);
-    }
-  };
+  console.log(rollnumber); // Use the existing state variable rollnumber
+
+  try {
+    const response = await axios.post('http://localhost:3000/admin/addMarks', {
+      rollnumber: rollnumber,
+      DBMS: dbmsNumber,
+      SE: seNumber,
+      CN: cnNumber
+    });
+
+    console.log('Marks added successfully:', response.data);
+    // You can handle success, e.g., show a success message to the user
+  } catch (error) {
+    console.error('Error adding marks:', error);
+  }
+};
 
   return (
     <div>
