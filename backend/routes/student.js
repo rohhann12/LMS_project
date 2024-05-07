@@ -1,7 +1,7 @@
 const express = require('express')
 const  router = express()
 const port = 3000
-const {Marks,Student}=require("../db/index")
+const {Marks,Student,PDF,TT}=require("../db/index")
 
 
  router.use(express.json());
@@ -50,25 +50,30 @@ const {Marks,Student}=require("../db/index")
         })
     }
 })
-
-router.post('/getTimeTable', async (req, res) => {
+router.post("/getTimeTable", (req, res) => {
+    const subgroup=req.body.subgroup
     try {
-        const { subgroup } = req.body;
-        const finding = await Student.findOne({ subgroup });
-        if (finding === null) {
-            res.json({
-                msg: "Subgroup's timetable not uploaded, kindly contact your teacher"
-            });
-        } else {
-            res.json({
-                subgroup: finding,
-            });
-        }
+      TT.find({subgroup}).then((data) => {
+        res.send({ status: "ok", data: data });
+      });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.log(error)
     }
-});
+  });
+  
+router.get('/getAssignments',(req,res)=>{
+    // const CourseName=req.body.CourseName
+    try {
+        PDF.find({}).then((data)=>{
+            res.send({
+                status:"ok",
+                data:data
+            })
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 module.exports= router
 

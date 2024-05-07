@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import axios from 'axios';
 
 function UploadTimetable() {
@@ -11,7 +12,6 @@ function UploadTimetable() {
     const formData = new FormData();
     formData.append("subgroup", subgroup);
     formData.append("image", image);
-    console.log(subgroup, image);
 
     try {
       const result = await axios.post(
@@ -56,6 +56,7 @@ function UploadTimetable() {
           </button>
         </form>
       </div>
+      <Link to='/'>Go Back</Link> {/* Include the Link component */}
       <div>
         {isUploaded && 
           <div>

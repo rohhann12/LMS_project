@@ -6,7 +6,7 @@ import CN from '../individual/CN'
 import DBMS from '../individual/DBMS'
 import SE from '../individual/SE'
 import  Marks  from './getMarks';
-import Timetable from '../getTimetable'
+import Timetable from '../getTimeTable'
 function allCourse() {
   return (
     <>
