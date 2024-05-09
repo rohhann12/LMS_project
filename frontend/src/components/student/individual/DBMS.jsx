@@ -21,7 +21,7 @@ function CN() {
   // Render the data conditionally
   return (
     <>
-    <Link to='/'>Go Back to home Screen</Link>
+    
       {data && (
         <div>
           {/* Render your data here */}
@@ -32,6 +32,7 @@ function CN() {
   </div>
         </div>
       )}
+      <Link to='/'>Go Back to home Screen</Link>
     </>
   );
 }

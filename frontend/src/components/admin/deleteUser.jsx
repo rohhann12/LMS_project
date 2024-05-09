@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
+import {Link} from 'react-router-dom'
 
 function deleteUser() {
   const [rollnumber, setRollnumber] = useState('');
@@ -30,8 +31,10 @@ function deleteUser() {
       {abc &&  
       <div>
         <p>User with rollnumber {rollnumber} deleted</p>
+       
       </div>
       }
+       <Link to='/'>Go Back</Link>
     </>
   );
 }

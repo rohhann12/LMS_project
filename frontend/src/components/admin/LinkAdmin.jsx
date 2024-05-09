@@ -6,16 +6,17 @@ function All() {
   return (
     <>
 
-      <p>ADMIN DASHBOARD</p>
+      <h1>ADMIN DASHBOARD</h1>
       <Link to='/AddStudent'>Add Student Here</Link>
       <br/>
       <Link to='/UploadTimeTable'>Upload Time Table</Link>
       <br/>
       <Link to='/AddMarks'>Add Marks Here</Link>
       <br/>
-      <Link to='/DeleteUser'>Delete User</Link>
+      <Link to='/UploadAssignment'>Upload Assignment</Link> 
       <br/>
-      <Link to='/UploadAssignment'>Upload Assignment</Link>
+      <Link to='/DeleteUser'>Delete User</Link>
+      
 
     </>
   );

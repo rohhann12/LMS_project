@@ -15,13 +15,11 @@ function CN() {
       }
     }
 
-    fetchData(); // Call the fetchData function when the component mounts
-  }, []); // Empty dependency array ensures this effect runs only once
-
-  // Render the data conditionally
+    fetchData(); 
+  }, []); 
+  
   return (
     <>
-    <Link to='/'>Go Back to home Screen</Link>
       {data && (
         <div>
           
@@ -33,6 +31,8 @@ function CN() {
   </div>
         </div>
       )}
+    <Link to='/'>Go Back to home Screen</Link>
+
     </>
   );
 }

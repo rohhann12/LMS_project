@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { pdfjs } from "react-pdf";
 import PdfComp from "./PdfComp";
+import {Link } from 'react-router-dom'
 
 // Set PDF.js worker source
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -51,6 +52,9 @@ function App() {
         </div>
       </div>
       {pdfFile && <PdfComp pdfFile={pdfFile} />} {/* Render PdfComp if pdfFile is not null */}
+      <div>
+        <Link to='/'>Go Back</Link>
+      </div>
     </div>
   );
 }

@@ -15,8 +15,9 @@ const {Marks,Student,PDF,TT}=require("../db/index")
       
     })
 })
- router.get("/allcourse/CN",(req,res)=>{
-    res.json({
+ router.get("/allcourse/CN",async(req,res)=>{
+   try {
+    await res.json({
         id:2,
         courseName:"CN",
         courseSite:"https://myherupa.com/pages/subjects/second-year/cse/networks.html",
@@ -25,6 +26,9 @@ const {Marks,Student,PDF,TT}=require("../db/index")
         // pdf ka link converter
 
     })
+   } catch (error) {
+    console.log(error)
+   }
 })
 
  router.get("/allcourse/SE",(req,res)=>{

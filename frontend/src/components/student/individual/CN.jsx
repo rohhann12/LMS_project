@@ -9,7 +9,7 @@ function CN() {
     async function fetchData() {
       try {
         const response = await axios.get("http://localhost:3000/student/allcourse/CN");
-        setData(response.data); // Update state with fetched data
+        setData(response.data); 
       } catch (error) {
         console.log(error);
       }
@@ -19,8 +19,8 @@ function CN() {
   }, []); 
   return (
     <>
+    
     <div>
-      <Link to='/'>Go Back to home Screen</Link>
       <br/>
       {data && (
         <div>
@@ -30,6 +30,9 @@ function CN() {
           <p>Credits: {data.Credits}</p>
         </div>
       )}
+      <div>
+    <Link to='/'>Go Back to home Screen</Link>
+    </div>
       </div>
     </>
   );

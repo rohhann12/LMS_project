@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import {Link} from 'react-router-dom'
 function UploadTimetable() {
   const [CourseName, setCourseName] = useState("");
   const [file, setFile] = useState("");
@@ -58,7 +58,8 @@ function UploadTimetable() {
         <div>
           <p>Uploaded successfully</p>
         </div>
-      }  
+      } 
+      <Link to='/'>Go Back</Link> 
     </div>
   );
 }

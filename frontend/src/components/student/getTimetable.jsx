@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {Link } from 'react-router-dom'
+
 
 function getTimeTable() {
     const [subgroup, setSubgroup] = useState('');
@@ -54,6 +56,9 @@ function getTimeTable() {
                 </div>
             )}
             {error && <p style={{ color: 'red' }}>{error}</p>}
+            <div>
+            <Link to='/'>Go Back To Home Screen</Link>
+            </div>
         </>
     );
 }

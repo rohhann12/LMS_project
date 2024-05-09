@@ -6,7 +6,7 @@ function All() {
   return (
     <>
 
-      <p>Student Dashboard</p>
+      <h1>Student Dashboard</h1>
       <Link to='/CN'>Computer Networks</Link>
       <br/>
       <Link to='/SE'>Software Engineering</Link>
@@ -16,7 +16,10 @@ function All() {
       <Link to='/getMarks'>Get Marks</Link>
       <br />
       <Link to='/getTimetable'>Get Time Table</Link>
-
+      <br />
+      <Link to='/getAssignment'>Get Assignment</Link>
+      <br />
+      
     </>
   );
 }
